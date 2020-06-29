@@ -36,7 +36,7 @@ expo start
 1) install react-native-debugger (is an app installable in SO)
 https://github.com/jhen0409/react-native-debugger/releases
 
-2) open it
+2) open it (it is the desktop)
 
 3) start your app in "Debug JS Remotely"
 
