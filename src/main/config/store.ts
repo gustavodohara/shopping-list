@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 // import promiseMiddleware from 'redux-promise-middleware';
 import reducer, { IRootState } from '../reducers';
 // import errorMiddleware from './error-middleware';
@@ -14,6 +15,7 @@ const defaultMiddlewares = [
 const composedMiddlewares = middlewares =>
     compose(applyMiddleware(...defaultMiddlewares, ...middlewares));
 
-const initialize = (initialState?: IRootState, middlewares = []) => createStore(reducer, initialState, composedMiddlewares(middlewares));
+const initialize = (initialState?: IRootState, middlewares = []) =>
+    createStore(reducer, initialState, composeWithDevTools(composedMiddlewares(middlewares)));
 
 export default initialize;
