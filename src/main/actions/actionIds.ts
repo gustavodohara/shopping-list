@@ -1,4 +1,10 @@
 export const actionIds = {
     // TEST
-    TEST_ACTION: 'test action'
+    TEST_ACTION: 'test action',
+
+    // SHOP LIST
+    GET_SHOP_LISTS: 'shopList/GET_SHOP_LISTS',
+    GET_SHOP_LISTS_SUCCESS: 'shopList/GET_SHOP_LISTS_SUCCESS',
+    GET_SHOP_LISTS_FAIL: 'shopList/GET_SHOP_LISTS_FAIL',
+    GET_SHOP_LISTS_NORMALIZED: 'shopList/GET_SHOP_LISTS/NORMALIZED',
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {HomeScreen} from '../screens/home/HomePage';
+import HomeScreen from '../screens/home/HomePage';
 import {SettingsScreen} from '../screens/settings/SettingsPage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 

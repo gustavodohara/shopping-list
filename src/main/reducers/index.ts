@@ -1,12 +1,15 @@
 import {combineReducers} from 'redux';
-import test, {TestState} from './test';
+import main, {MainState} from './main';
+import shopList, {ShopListState} from './shop-list';
 
 export interface IRootState {
-    readonly test: TestState;
+    readonly main: MainState;
+    readonly shopList: ShopListState;
 }
 
 const rootReducer = combineReducers<IRootState>({
-    test,
+    main,
+    shopList
 });
 
 export default rootReducer;
