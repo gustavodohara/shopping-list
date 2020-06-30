@@ -29,7 +29,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-promise-middleware": "^6.1.2",
-    "expo-sqlite": "~8.2.1"
+    "expo-sqlite": "~8.2.1",
+    "@react-native-community/async-storage": "~1.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
