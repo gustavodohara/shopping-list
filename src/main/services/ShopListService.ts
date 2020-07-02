@@ -6,30 +6,30 @@ export interface IShopList {
     /* name of list */
     name: string;
     /* date */
-    date: string;
+    date: Date;
     /* id in store collection */
     store: number;
     /* array of items in items collection */
-    items: number[]
+    items?: number[]
 }
 
 const COLLECTION_KEY = '@LIST';
 const COLLECTION_SEQ_KEY = '@LIST/SEQ';
 
-export class ListService {
-    private static instance: ListService;
+export class ShopListService {
+    private static instance: ShopListService;
     private seq = 0;
 
     constructor() {
     }
 
-    static getInstance(): ListService {
-        if (!ListService.instance) {
-            ListService.instance = new ListService();
-            // await ListService.instance.init();
+    static getInstance(): ShopListService {
+        if (!ShopListService.instance) {
+            ShopListService.instance = new ShopListService();
+            // await ShopListService.instance.init();
         }
 
-        return ListService.instance;
+        return ShopListService.instance;
     }
 
     // private async init() {
@@ -71,6 +71,7 @@ export class ListService {
 
         const listToStorage = JSON.stringify(list);
         await AsyncStorage.setItem(COLLECTION_KEY, listToStorage);
+        return item;
     };
 
     async remove(id: number) {

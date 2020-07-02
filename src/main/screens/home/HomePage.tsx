@@ -1,12 +1,19 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {SafeAreaView, FlatList, StyleSheet, View, Text} from 'react-native';
+import {SafeAreaView, FlatList, StyleSheet, View, Text, Button} from 'react-native';
+import {connect} from 'react-redux';
 import Constants from 'expo-constants';
+import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 
 import {IRootState} from '../../reducers';
-import {connect} from 'react-redux';
 import {getShopListsAction} from '../../actions/shopList';
 import {convertObjectIntoArray} from '../../services/utils';
+import {
+    NavigationRouteProp,
+    RootStackParamList
+} from '../../navigations/app-navigator-with-tab';
+import {NEW_SHOP_LIST_NAVIGATOR_KEY} from '../../config/constants';
+import {ShopListList} from './shopListList';
 
 
 const styles = StyleSheet.create({
@@ -14,77 +21,42 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: Constants.statusBarHeight,
     },
-    item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-    },
-    title: {
-        fontSize: 32,
-    },
 });
 
-export interface IHomeProps extends StateProps, DispatchProps {
-}
+type ProfileScreenRouteProp = NavigationRouteProp<RootStackParamList, 'Home'>;
 
-function Item({ title  }) {
-    return (
-        <View style={styles.item}>
-            <Text style={styles.title}>{title}</Text>
-        </View>
-    );
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList,
+    'Home'>;
+
+type NavigationProps = {
+    route: ProfileScreenRouteProp;
+    navigation: ProfileScreenNavigationProp;
+};
+
+export interface IHomeProps extends StateProps, DispatchProps, NavigationProps {
 }
 
 export class HomeScreen extends Component<IHomeProps> {
 
     componentDidMount() {
-        const { getShopLists } = this.props;
+        const {getShopLists} = this.props;
         getShopLists();
     }
 
-    // const [list, setList] = useState<IShopList[]>([]);
-    // useEffect(() => {
-    // }, []);
-    //
-    // const onPressAdd = async () => {
-    //     const item: IShopList = {
-    //         name: 'test',
-    //         date: 'testdate',
-    //         store: 1,
-    //         items: []
-    //     };
-    //
-    //     await ListService.getInstance().add(item);
-    //     const listStored = await ListService.getInstance().get();
-    //     console.log('onPressAdd', listStored);
-    //     const listParsed = JSON.stringify(listStored);
-    //     setList(listParsed);
-    // };
-    //
-    // const onPressRemove = async () => {
-    //     let listStored = await ListService.getInstance().get();
-    //     const first = listStored.pop();
-    //     if (first && first.id) {
-    //         await ListService.getInstance().remove(first.id);
-    //         listStored = await ListService.getInstance().get();
-    //         console.log('onPressRemove listStored', listStored);
-    //         const listParsed = JSON.stringify(listStored);
-    //         setList(listParsed)
-    //     }
-    //
-    // };
+    onPressAdd = () => {
+        const {navigation} = this.props;
+        navigation.navigate(NEW_SHOP_LIST_NAVIGATOR_KEY);
+    };
 
     render() {
-        const {shopLists} = this.props;
-        console.log("shopLists", shopLists);
+        const {shopLists, navigation} = this.props;
         return (
             <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={shopLists}
-                    renderItem={({item}) => <Item title={item.name}/>}
-                    keyExtractor={item => item.id}
+                <ShopListList
+                    shopLists={shopLists}
+                    navigation={navigation}
                 />
+                <Button onPress={this.onPressAdd} title="New List"/>
             </SafeAreaView>
         );
     }
@@ -92,7 +64,7 @@ export class HomeScreen extends Component<IHomeProps> {
 
 };
 
-const mapStateToProps = ({ main }: IRootState) => {
+const mapStateToProps = ({main}: IRootState) => {
 
     const shopLists = convertObjectIntoArray(main.shopLists);
 
