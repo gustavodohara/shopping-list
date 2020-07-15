@@ -7,6 +7,9 @@ export default function* rootSaga() {
     // Shop List
     yield takeLatest(actionIds.GET_SHOP_LISTS, shopListSaga.getShopList);
     yield takeLatest(actionIds.CREATE_SHOP_LISTS, shopListSaga.createShopList);
+    yield takeLatest(actionIds.REMOVE_SHOP_LISTS, shopListSaga.removeShopList);
+    yield takeLatest(actionIds.REMOVE_SHOP_LISTS, shopListSaga.updateShopList);
+
 
     // Store
     yield takeLatest(actionIds.GET_STORE_LIST, storeSaga.getStores);

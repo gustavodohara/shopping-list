@@ -11,7 +11,7 @@ export type ShopListState = Readonly<typeof initialState>;
 // reducer
 export default (state: ShopListState = initialState, action: BaseAction): ShopListState => {
     switch (action.type) {
-        case actionIds.GET_SHOP_LISTS:
+        case actionIds. GET_SHOP_LISTS:
         case actionIds.CREATE_SHOP_LISTS:
             return {
                 ...state,

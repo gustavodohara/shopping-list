@@ -6,14 +6,15 @@ import Constants from 'expo-constants';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 
 import {IRootState} from '../../reducers';
-import {getShopListsAction} from '../../actions/shopList';
+import {getShopListsAction, removeShopListsAction, updateShopListsAction} from '../../actions/shop-list';
 import {convertObjectIntoArray} from '../../services/utils';
 import {
     NavigationRouteProp,
     RootStackParamList
 } from '../../navigations/app-navigator-with-tab';
-import {NEW_SHOP_LIST_NAVIGATOR_KEY} from '../../config/constants';
+import {SHOP_LIST_ITEM_NAVIGATOR_KEY} from '../../config/constants';
 import {ShopListList} from './shopListList';
+import {IShopList} from '../../services/interfaces/interfaces';
 
 
 const styles = StyleSheet.create({
@@ -45,16 +46,18 @@ export class HomeScreen extends Component<IHomeProps> {
 
     onPressAdd = () => {
         const {navigation} = this.props;
-        navigation.navigate(NEW_SHOP_LIST_NAVIGATOR_KEY);
+        navigation.navigate(SHOP_LIST_ITEM_NAVIGATOR_KEY);
     };
 
     render() {
         const {shopLists, navigation} = this.props;
+        const {removeShopList} = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <ShopListList
                     shopLists={shopLists}
                     navigation={navigation}
+                    onDelete={removeShopList}
                 />
                 <Button onPress={this.onPressAdd} title="New List"/>
             </SafeAreaView>
@@ -74,8 +77,8 @@ const mapStateToProps = ({main}: IRootState) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    getShopLists: () =>
-        dispatch(getShopListsAction(null, null)),
+    getShopLists: () => dispatch(getShopListsAction(null, null)),
+    removeShopList: (id: number, onSuccess = null, onFail = null) => dispatch(removeShopListsAction(id, onSuccess, onFail)),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

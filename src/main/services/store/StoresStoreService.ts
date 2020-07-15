@@ -1,11 +1,4 @@
-export interface IStore {
-    /* id in collections */
-    id?: number;
-    /* name of list */
-    name: string;
-    /* description of the store */
-    description: string;
-}
+import {IStore} from '../interfaces/interfaces';
 
 const STORES: IStore[] = [
     {
@@ -21,19 +14,19 @@ const STORES: IStore[] = [
 
 ];
 
-export class StoresService {
-    private static instance: StoresService;
+export class StoresStoreService {
+    private static instance: StoresStoreService;
 
     constructor() {
     }
 
-    static getInstance(): StoresService {
-        if (!StoresService.instance) {
-            StoresService.instance = new StoresService();
+    static getInstance(): StoresStoreService {
+        if (!StoresStoreService.instance) {
+            StoresStoreService.instance = new StoresStoreService();
             // await ShopListService.instance.init();
         }
 
-        return StoresService.instance;
+        return StoresStoreService.instance;
     }
 
     // private async init() {

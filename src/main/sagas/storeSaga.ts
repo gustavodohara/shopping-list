@@ -1,15 +1,13 @@
 import {all, call, put} from 'redux-saga/effects';
-import {ShopListService} from '../services/ShopListService';
-import {getShopListsFailAction, getShopListsSuccessAction} from '../actions/shopList';
 import {upsertNormalizedAction} from '../actions/actions';
 import {normalizeItem, shopListSchema, storeSchema} from '../config/normalization';
 import {actionIds} from '../actions/actionIds';
-import {StoresService} from '../services/StoresService';
+import {StoresApiService} from '../services/StoresApiService';
 import {getStoreFailAction, getStoreSuccessAction} from '../actions/store';
 
 async function getStoresAPI() {
     try {
-        return await StoresService.getInstance().get();
+        return await StoresApiService.getInstance().get();
     } catch (e) {
         return e
     }

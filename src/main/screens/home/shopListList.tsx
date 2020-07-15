@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const ShopListList = ({shopLists, navigation}) => {
+export const ShopListList = ({shopLists, navigation, onDelete}) => {
     const [hasShopList, setHasShopList] = useState(false);
 
     useEffect(() => {
@@ -58,6 +58,7 @@ export const ShopListList = ({shopLists, navigation}) => {
                           shopList={shopList}
                           extraClass={extraClass}
                           navigation={navigation}
+                          onDelete={onDelete}
                       />
                   );
               })

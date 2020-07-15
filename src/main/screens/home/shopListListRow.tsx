@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import {FlatList, StyleSheet, Text, View, Animated, I18nManager} from 'react-native';
+import {FlatList, StyleSheet, Text, View, Animated, I18nManager, Alert} from 'react-native';
 import {RectButton} from "react-native-gesture-handler";
 import {HIGHLIGHT_MAIN, HIGHLIGHT_SECOND} from '../../styles/colors';
 import { DataTable } from 'react-native-paper';
-import {NEW_SHOP_LIST_NAVIGATOR_KEY} from '../../config/constants';
+import {SHOP_LIST_ITEM_NAVIGATOR_KEY} from '../../config/constants';
 
 const styles = StyleSheet.create({
     actionText: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const ShopListListRow = ({ navigation, shopList, extraClass}) => {
+export const ShopListListRow = ({ navigation, shopList, extraClass, onDelete}) => {
     const [swipeableRow, setSwipeableRow] = useState(null);
 
     const close = () => {
@@ -56,12 +56,29 @@ export const ShopListListRow = ({ navigation, shopList, extraClass}) => {
         setSwipeableRow(ref);
     };
 
+    const onRemoveAccept = (id) => {
+
+    };
+
     const onRemove = () => {
-        console.log("onRemove")
+        const id = shopList.id;
+        Alert.alert(
+            'Borrar Lista',
+            'Esta seguro que quiere eliminar esta lista?',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => {},
+                    style: 'cancel'
+                },
+                { text: 'OK', onPress: () => onDelete(id) }
+            ],
+            { cancelable: false }
+        );
     };
 
     const onClick = (id: number) => {
-        navigation.navigate(NEW_SHOP_LIST_NAVIGATOR_KEY, {id});
+        navigation.navigate(SHOP_LIST_ITEM_NAVIGATOR_KEY, {id});
     };
 
     const onClone = () => {

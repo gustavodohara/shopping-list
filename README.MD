@@ -1,8 +1,22 @@
+#Develop
+
+IMPORTANT NOTE: your Device SHOULD BE CONNECTED to the SAME WIFI your PC!!!
+
+1) download in Device Expo.io app 
+
+2)run in a terminal
+
+`expo start`
+
+3) scan QR 
+
+
+
 #Debug
 
+
+
 ## Debug with React DevTools
-
-
 
 1) install react-devtool global: 
 

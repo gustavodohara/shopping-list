@@ -5,13 +5,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/home/HomePage';
 import SettingsScreen from '../screens/settings/SettingsPage';
 import ShopListScreen from '../screens/shop_list/ShopListPage';
-import {HOME_NAVIGATOR_KEY, NEW_SHOP_LIST_NAVIGATOR_KEY, SETTINGS_NAVIGATOR_KEY} from '../config/constants';
+import {HOME_NAVIGATOR_KEY, SHOP_LIST_ITEM_NAVIGATOR_KEY, SETTINGS_NAVIGATOR_KEY} from '../config/constants';
 
 
 export type RootStackParamList = {
     Home: undefined;
     Settings: undefined
-    NewShopList: undefined;
+    ShopList: undefined;
 };
 
 export class NavigationRouteProp<T, U> {
@@ -29,7 +29,7 @@ const getHeaderTitle = (route) => {
             return 'Shop List';
         case SETTINGS_NAVIGATOR_KEY:
             return 'My Settings';
-        case NEW_SHOP_LIST_NAVIGATOR_KEY:
+        case SHOP_LIST_ITEM_NAVIGATOR_KEY:
             return 'New List';
 
     }
@@ -57,7 +57,7 @@ export const NavigatorWithTabs = () => {
                         headerTitle: getHeaderTitle(route),
                     })}
                 />
-                <Stack.Screen name={NEW_SHOP_LIST_NAVIGATOR_KEY} component={ShopListScreen} />
+                <Stack.Screen name={SHOP_LIST_ITEM_NAVIGATOR_KEY} component={ShopListScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

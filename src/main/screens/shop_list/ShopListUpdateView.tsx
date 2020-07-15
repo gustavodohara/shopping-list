@@ -1,0 +1,66 @@
+import * as React from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import GHDShopListForm from '../../components/form/GHDShopListForm';
+import {IShopList} from '../../services/interfaces/interfaces';
+import {useEffect, useState} from 'react';
+
+const styles = StyleSheet.create({
+    container: {},
+    h1: {
+        textAlign: 'center',
+        fontSize: 18
+    },
+    header: {
+        marginTop: 8,
+        marginBottom: 16
+    },
+    inputs: {},
+});
+
+const ShopListUpdateView = ({initialValues, updateShopList, stores}) => {
+    const [shopList, setShopList] = useState({});
+
+    useEffect(() => {
+        if (initialValues) {
+          setShopList(initialValues)
+        }
+    }, [initialValues]);
+
+    const onSubmit = (action: Function, data: any) => {
+        console.log('data', data);
+        const values = data.variables;
+        const variables = {
+            date: new Date(),
+            name: values.name,
+            storeId: +values.storeId,
+        };
+        console.log('variables', variables);
+
+        action(variables);
+    };
+
+    return (
+        <KeyboardAwareScrollView
+            enableOnAndroid
+            extraScrollHeight={100}
+            viewIsInsideTabBar
+            style={styles.container}
+        >
+            <ScrollView>
+                <Text style={[styles.h1, styles.header]}>ACTUALIZAR LISTA DE COMPRAS</Text>
+                <View style={styles.inputs}>
+                    <GHDShopListForm
+                        action={(data: any) => onSubmit(updateShopList, data)}
+                        initialValues={initialValues}
+                        submitLabel="Update"
+                        stores={stores}
+                    />
+                </View>
+            </ScrollView>
+        </KeyboardAwareScrollView>
+    );
+};
+
+export default ShopListUpdateView;

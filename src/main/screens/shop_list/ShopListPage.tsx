@@ -9,10 +9,12 @@ import {connect} from 'react-redux';
 import {NavigationRouteProp, RootStackParamList} from '../../navigations/app-navigator-with-tab';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 import ShopListCreateView from './ShopListCreateView';
-import {createShopListsAction, getShopListsAction} from '../../actions/shopList';
+import {createShopListsAction, getShopListsAction, updateShopListsAction} from '../../actions/shop-list';
 import {getStoreAction} from '../../actions/store';
 import {convertObjectIntoArray} from '../../services/utils';
 import {HOME_NAVIGATOR_KEY} from '../../config/constants';
+import {IShopList} from '../../services/interfaces/interfaces';
+import ShopListUpdateView from './ShopListUpdateView';
 
 
 const styles = StyleSheet.create({
@@ -22,12 +24,10 @@ const styles = StyleSheet.create({
     },
 });
 
-type ProfileScreenRouteProp = NavigationRouteProp<RootStackParamList, 'NewShopList'>;
+type ProfileScreenRouteProp = NavigationRouteProp<RootStackParamList, 'ShopList'>;
 
-type ProfileScreenNavigationProp = StackNavigationProp<
-    RootStackParamList,
-    'NewShopList'
-    >;
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList,
+    'ShopList'>;
 
 type NavigationProps = {
     route: ProfileScreenRouteProp;
@@ -36,17 +36,19 @@ type NavigationProps = {
 
 interface IShopListState {
     name: string;
-    shopId: number;
+    shopId: number | null;
 }
 
 export interface IShopListProps extends StateProps, DispatchProps, NavigationProps {
 }
 
 
-const initState = {
+const initState: IShopListState = {
     name: '',
-    shodId: null
+    shopId: null
 };
+
+
 
 class ShopListScreen extends Component<IShopListProps, IShopListState> {
     constructor(props) {
@@ -67,26 +69,34 @@ class ShopListScreen extends Component<IShopListProps, IShopListState> {
         console.log('on error create opp');
     };
 
-    private handleCreateStores = () => (data) => {
-        const { createStores } = this.props;
-        createStores(data, this.onCompleted, this.onError)
+    private handleCreateShopList = () => (data) => {
+        const {createShopList} = this.props;
+        createShopList(data, this.onCompleted, this.onError)
     };
 
+    private handleUpdateShopList = () => (data) => {
+        // const { createShopList } = this.props;
+        // createShopList(data, this.onCompleted, this.onError)
+    };
+
+    private getShopListById(id: number): IShopListState {
+
+    }
+
     componentDidMount() {
-        const { getStores } = this.props;
+        const {getStores} = this.props;
         getStores();
     }
 
     render() {
-        const { stores, navigation } = this.props;
+        const {stores, navigation, route} = this.props;
         const {
             name,
             shopId,
         } = this.state;
 
-        // const shopListId = navigation.getParam('shopListId', null);
-        // const isCreate = shopListId === null;
-        const isCreate = true;
+        const shopListId = route.params.id || null;
+        const isCreate = shopListId === null;
 
         return (
             <SafeAreaView style={styles.container}>
@@ -100,12 +110,22 @@ class ShopListScreen extends Component<IShopListProps, IShopListState> {
                                     name,
                                     shopId
                                 }}
-                                createShopList={this.handleCreateStores()}
+                                createShopList={this.handleCreateShopList()}
                                 stores={stores}
                             />
                         )}
                         {/* update opportunity */}
-                        {!isCreate && null}
+                        {!isCreate && (
+                            <ShopListUpdateView
+                                shopListId={shopListId}
+                                initialValues={{
+                                    name,
+                                    shopId
+                                }}
+                                updateShopList={this.handleCreateShopList()}
+                                stores={stores}
+                            />
+                        )}
                     </Card.Content>
                 </Card>
             </SafeAreaView>
@@ -115,7 +135,7 @@ class ShopListScreen extends Component<IShopListProps, IShopListState> {
 
 };
 
-const mapStateToProps = ({ main }: IRootState) => {
+const mapStateToProps = ({main}: IRootState) => {
 
     const stores = convertObjectIntoArray(main.stores);
 
@@ -126,7 +146,8 @@ const mapStateToProps = ({ main }: IRootState) => {
 
 const mapDispatchToProps = (dispatch) => ({
     getStores: () => dispatch(getStoreAction(null, null)),
-    createStores: (data, onSuccess = null, onFail = null) => dispatch(createShopListsAction(data, onSuccess, onFail)),
+    createShopList: (data, onSuccess = null, onFail = null) => dispatch(createShopListsAction(data, onSuccess, onFail)),
+    updateShopList: (item: IShopList, onSuccess = null, onFail = null) => dispatch(updateShopListsAction(item, onSuccess, onFail)),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
