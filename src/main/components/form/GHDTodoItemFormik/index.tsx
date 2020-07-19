@@ -44,7 +44,10 @@ const GHDTodoItemFormik = ({
                                onRemove
                            }: Props) => {
     // Binding `isCompleted` using index of TODO array
-    const [completedField, completeMetas, completeHelpers] = useField({name: `items[${index}].is_completed`, type: "checkbox"});
+    const [completedField, completeMetas, completeHelpers] = useField({
+        name: `items[${index}].is_completed`,
+        type: "checkbox"
+    });
     // Binding `content` using index of items array
     const [descriptionField, descriptionMeta, descriptionHelpers] = useField(`items[${index}].description`);
     const [idField, idMeta, idHelpers] = useField(`items[${index}].id`);
@@ -62,29 +65,40 @@ const GHDTodoItemFormik = ({
         completeHelpers.setValue(check);
     };
 
+    const getErrorOrNull = () => {
+        return descriptionMeta.touched ? descriptionMeta.error : null;
+    };
+
     // console.log("render descriptionField", descriptionField);
-    // console.log("render idField", idField);
+    console.log("render descriptionMeta ", descriptionMeta);
+    console.log("render idField", idField);
 
     return (
-        edit ?
-            <GHDTodoItemFormikEdit
-                index={index}
-                style={style}
-                keyboardType={keyboardType}
-                checked={!!completedField.checked}
-                onCheckChange={completeHelpers.setValue}
-                onCheckBlur={() => completeHelpers.setTouched(true)}
-                description={descriptionField.value}
-                onDescriptionChange={descriptionHelpers.setValue}
-                onDescriptionBlur={() => descriptionHelpers.setTouched(true)}
-                onRemove={onRemove}
-            />
-            :
-            <GHDTodoItemFormikRead
-                description={descriptionField.value}
-                checked={!!completedField.checked}
-                onCheck={onCheckChange}
-            />
+        <View>
+            {
+                edit ?
+                    <GHDTodoItemFormikEdit
+                        index={index}
+                        style={style}
+                        keyboardType={keyboardType}
+                        checked={!!completedField.checked}
+                        onCheckChange={completeHelpers.setValue}
+                        onCheckBlur={() => completeHelpers.setTouched(true)}
+                        description={descriptionField.value}
+                        onDescriptionChange={descriptionHelpers.setValue}
+                        onDescriptionBlur={() => descriptionHelpers.setTouched(true)}
+                        onRemove={onRemove}
+                        errorMessage={getErrorOrNull()}
+                    />
+                    :
+                    <GHDTodoItemFormikRead
+                        description={descriptionField.value}
+                        checked={!!completedField.checked}
+                        onCheck={onCheckChange}
+                    />
+            }
+            <Text>id field {idField.value}</Text>
+        </View>
     );
 };
 

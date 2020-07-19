@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {Button, Checkbox, TextInput} from 'react-native-paper';
+import {Button, Checkbox, HelperText, TextInput} from 'react-native-paper';
 import {useField} from 'formik';
 
 
@@ -40,6 +40,7 @@ interface Props {
     onDescriptionChange: any;
     onDescriptionBlur: any;
     onRemove: any;
+    errorMessage: any;
 }
 
 const GHDTodoItemFormikEdit = ({
@@ -50,13 +51,16 @@ const GHDTodoItemFormikEdit = ({
                                    onCheckBlur,
                                    onDescriptionChange,
                                    onDescriptionBlur,
-                                   onRemove
+                                   onRemove,
+                                   errorMessage
                                }: Props) => {
 
     const onDescriptionInput = (text: string) => {
         onDescriptionChange(text);
         onDescriptionBlur();
     };
+
+    const hasError = !!errorMessage;
 
     // console.log("render descriptionField", descriptionField);
     // console.log("render descriptionMeta", descriptionMeta);
@@ -85,10 +89,9 @@ const GHDTodoItemFormikEdit = ({
                 // disabled={disabled}
             />
             <Button onPress={onRemove}>Remove</Button>
-            {/*{hasError && (*/}
-            {/*    <HelperText type="error">{formikProps.errors[formikKey]}</HelperText>*/}
-            {/*)}*/}
-            {/*<Text>completedField</Text>*/}
+            {hasError && (
+                <HelperText type="error">{errorMessage}</HelperText>
+            )}
         </View>
 
     );

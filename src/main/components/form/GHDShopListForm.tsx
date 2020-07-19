@@ -128,7 +128,7 @@ const GHDShopListForm = ({
     };
 
     const addNewItem = (arrayItems) => {
-        arrayItems.push({
+        arrayItems.unshift({
             description: '',
             is_completed: false,
             is_new: true,
