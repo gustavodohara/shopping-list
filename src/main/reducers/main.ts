@@ -1,10 +1,10 @@
 import _ from "lodash";
-import {IShopList} from '../services/ShopListService';
 import {BaseAction} from '../actions/actions';
-import {IStore} from '../services/StoresService';
+import {IShopList, IShopListItem, IStore} from '../services/interfaces/interfaces';
 
 export interface MainState {
   shopLists: {[key: string]: IShopList};
+  shopListItems: {[key: string]: IShopListItem};
   stores: {[key: string]: IStore};
 }
 

@@ -9,6 +9,19 @@ export interface IShopList {
     /* id in store collection */
     store: number;
     /* array of items in items collection */
+    items: IShopListItem[]
+}
+
+export interface IShopListNormalized {
+    /* id in collections */
+    id?: number;
+    /* name of list */
+    name: string;
+    /* date */
+    date: Date;
+    /* id in store collection */
+    store: number;
+    /* array of items in items collection */
     items: number[]
 }
 
@@ -21,6 +34,8 @@ export interface IShopListItem {
     qty: number
     /* id in store collection */
     unit: number;
+    /* boolean to indicate a item is completed */
+    is_completed: boolean;
 }
 
 export interface IStore {

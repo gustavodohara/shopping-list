@@ -2,10 +2,10 @@ import React from 'react';
 import {NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import {HOME_NAVIGATOR_KEY, SHOP_LIST_ITEM_NAVIGATOR_KEY, SETTINGS_NAVIGATOR_KEY} from '../config/constants';
 import HomeScreen from '../screens/home/HomePage';
 import SettingsScreen from '../screens/settings/SettingsPage';
 import ShopListScreen from '../screens/shop_list/ShopListPage';
-import {HOME_NAVIGATOR_KEY, SHOP_LIST_ITEM_NAVIGATOR_KEY, SETTINGS_NAVIGATOR_KEY} from '../config/constants';
 
 
 export type RootStackParamList = {

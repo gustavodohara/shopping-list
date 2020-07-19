@@ -6,7 +6,12 @@ import Constants from 'expo-constants';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 
 import {IRootState} from '../../reducers';
-import {getShopListsAction, removeShopListsAction, updateShopListsAction} from '../../actions/shop-list';
+import {
+    cleanAllShopListsAction, cloneShopListsAction,
+    getShopListsAction,
+    removeShopListsAction,
+    updateShopListsAction
+} from '../../actions/shop-list';
 import {convertObjectIntoArray} from '../../services/utils';
 import {
     NavigationRouteProp,
@@ -14,6 +19,7 @@ import {
 } from '../../navigations/app-navigator-with-tab';
 import {SHOP_LIST_ITEM_NAVIGATOR_KEY} from '../../config/constants';
 import {ShopListList} from './shopListList';
+import {getShopListItemsAction} from '../../actions/shop-list-item';
 import {IShopList} from '../../services/interfaces/interfaces';
 
 
@@ -40,8 +46,9 @@ export interface IHomeProps extends StateProps, DispatchProps, NavigationProps {
 export class HomeScreen extends Component<IHomeProps> {
 
     componentDidMount() {
-        const {getShopLists} = this.props;
+        const {getShopLists, getShopListItems} = this.props;
         getShopLists();
+        getShopListItems();
     }
 
     onPressAdd = () => {
@@ -49,8 +56,13 @@ export class HomeScreen extends Component<IHomeProps> {
         navigation.navigate(SHOP_LIST_ITEM_NAVIGATOR_KEY);
     };
 
+    // handleOnClone(data) {
+    //     const {cloneShopList} = this.props;
+    //     cloneShopList(data);
+    // };
+
     render() {
-        const {shopLists, navigation} = this.props;
+        const {shopLists, navigation, cloneShopList} = this.props;
         const {removeShopList} = this.props;
         return (
             <SafeAreaView style={styles.container}>
@@ -58,6 +70,7 @@ export class HomeScreen extends Component<IHomeProps> {
                     shopLists={shopLists}
                     navigation={navigation}
                     onDelete={removeShopList}
+                    onClone={cloneShopList}
                 />
                 <Button onPress={this.onPressAdd} title="New List"/>
             </SafeAreaView>
@@ -78,7 +91,9 @@ const mapStateToProps = ({main}: IRootState) => {
 
 const mapDispatchToProps = (dispatch) => ({
     getShopLists: () => dispatch(getShopListsAction(null, null)),
+    getShopListItems: () => dispatch(getShopListItemsAction(null, null)),
     removeShopList: (id: number, onSuccess = null, onFail = null) => dispatch(removeShopListsAction(id, onSuccess, onFail)),
+    cloneShopList: (data: IShopList, onSuccess = null, onFail = null) => dispatch(cloneShopListsAction(data, onSuccess, onFail)),
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -111,3 +111,59 @@ export const updateShopListsFailAction: (error: any) => BaseAction = (error) => 
     type: actionIds.UPDATE_SHOP_LISTS_FAIL,
     payload: error
 });
+
+
+/**
+ * clean all shop list
+ */
+export const cleanAllShopListsAction: () => BaseAction = () => ({
+    type: actionIds.CLEAN_SHOP_LISTS,
+    payload: null,
+    onSuccess: null,
+    onFail: null
+});
+
+/**
+ * clean all shop list success
+ */
+export const cleanAllShopListsSuccessAction: (data: any) => BaseAction = (data) => ({
+    type: actionIds.CLEAN_SHOP_LISTS_SUCCESS,
+    payload: data
+});
+
+/**
+ * clean all shop list fail
+ * @param error
+ */
+export const cleanAllShopListsFailAction: (error: any) => BaseAction = (error) => ({
+    type: actionIds.CLEAN_SHOP_LISTS_FAIL,
+    payload: error
+});
+
+
+/**
+ * create shop list
+ */
+export const cloneShopListsAction: (data, onSuccess, onFail) => BaseAction = (data, onSuccess, onFail) => ({
+    type: actionIds.CLONE_SHOP_LISTS,
+    payload: data,
+    onSuccess: onSuccess || null,
+    onFail: onFail || null
+});
+
+/**
+ * load shop list success
+ */
+export const cloneShopListsSuccessAction: (data: any) => BaseAction = (data) => ({
+    type: actionIds.CLONE_SHOP_LISTS_SUCCESS,
+    payload: data
+});
+
+/**
+ * load shop list fail
+ * @param error
+ */
+export const cloneShopListsFailAction: (error: any) => BaseAction = (error) => ({
+    type: actionIds.CLONE_SHOP_LISTS_FAIL,
+    payload: error
+});

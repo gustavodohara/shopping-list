@@ -42,6 +42,16 @@ export class ShopListItemsApiService {
         return newItem;
     };
 
+    async addOrUpdate(item: IShopListItem) {
+        let newItem = null;
+        if (item && item.id) {
+            newItem = await this.update(item.id, item);
+        } else {
+            newItem = await this.add(item);
+        }
+        return newItem;
+    };
+
     async remove(id: number) {
         await ShopListItemsStoreService.getInstance().remove(id);
         return id;
@@ -54,7 +64,10 @@ export class ShopListItemsApiService {
 
     async update(id: number, data: IShopListItem) {
         return await ShopListItemsStoreService.getInstance().update(id, data);
+    }
 
+    async cleanAll () {
+        return await ShopListItemsStoreService.getInstance().cleanAll();
     }
 }
 

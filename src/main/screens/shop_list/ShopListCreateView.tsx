@@ -16,7 +16,13 @@ const styles = StyleSheet.create({
   inputs: {},
 });
 
-const ShopListCreateView = ({ initialValues, createShopList, stores }) => {
+const initState = {
+  name: '',
+  storeId: null,
+  items: [],
+};
+
+const ShopListCreateView = ({ navigation, createShopList, stores }) => {
 
   const onSubmit = (action, data) => {
     console.log('data', data);
@@ -25,6 +31,7 @@ const ShopListCreateView = ({ initialValues, createShopList, stores }) => {
       date: new Date(),
       name: values.name,
       storeId: +values.storeId,
+      items: values.items,
     };
     console.log('variables', variables);
 
@@ -43,7 +50,7 @@ const ShopListCreateView = ({ initialValues, createShopList, stores }) => {
           <View style={styles.inputs}>
             <GHDShopListForm
                 action={data => onSubmit(createShopList, data)}
-                initialValues={initialValues}
+                initialValues={initState}
                 submitLabel="Create"
                 stores={stores}
             />

@@ -19,22 +19,37 @@ const styles = StyleSheet.create({
     inputs: {},
 });
 
-const ShopListUpdateView = ({initialValues, updateShopList, stores}) => {
-    const [shopList, setShopList] = useState({});
+const ShopListUpdateView = ({shopList, updateShopList, stores}) => {
+    // const [shopList, setShopList] = useState({});
+    const [initialValues, setInitialValues] = useState({});
+
+    // useEffect(() => {
+    //     if (initialValues) {
+    //       setShopList(initialValues)
+    //     }
+    // }, [initialValues]);
 
     useEffect(() => {
-        if (initialValues) {
-          setShopList(initialValues)
+        if (shopList) {
+            // const initial = {
+            //     id: shopList.id,
+            //     name: shopList.name,
+            //     storeId: shopList.storeId
+            //     itemsf
+            // };
+            setInitialValues(shopList);
         }
-    }, [initialValues]);
+    }, [shopList]);
 
     const onSubmit = (action: Function, data: any) => {
         console.log('data', data);
         const values = data.variables;
         const variables = {
+            id: initialValues.id,
             date: new Date(),
             name: values.name,
             storeId: +values.storeId,
+            items: values.items,
         };
         console.log('variables', variables);
 

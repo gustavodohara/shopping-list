@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const ShopListListRow = ({ navigation, shopList, extraClass, onDelete}) => {
+export const ShopListListRow = ({ navigation, shopList, extraClass, onDelete, onClone}) => {
     const [swipeableRow, setSwipeableRow] = useState(null);
 
     const close = () => {
@@ -81,8 +81,9 @@ export const ShopListListRow = ({ navigation, shopList, extraClass, onDelete}) =
         navigation.navigate(SHOP_LIST_ITEM_NAVIGATOR_KEY, {id});
     };
 
-    const onClone = () => {
-        console.log("onClone")
+    const handleClone = () => {
+        console.log("onClone");
+        onClone(shopList);
     };
 
     const renderRightAction = (
@@ -121,7 +122,7 @@ export const ShopListListRow = ({ navigation, shopList, extraClass, onDelete}) =
                 HIGHLIGHT_MAIN,
                 192,
                 progress,
-                onClone,
+                handleClone,
                 shopList.id
             )}
             {renderRightAction(

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { DefaultTheme, HelperText, Menu, TextInput } from 'react-native-paper';
@@ -53,6 +53,11 @@ const DropdownInputFormikValidator = ({
   const [inputValue, setInputValue] = useState(
     formikProps.values[formikKey] || ''
   );
+
+  useEffect(() => {
+    const newValue = formikProps.values[formikKey];
+    setInputValue(newValue);
+  }, [formikProps, formikKey]);
 
   const hasError =
     !!formikProps.touched[formikKey] && formikProps.errors[formikKey];

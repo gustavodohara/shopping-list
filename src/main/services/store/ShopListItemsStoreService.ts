@@ -120,11 +120,15 @@ export class ShopListItemsStoreService {
             list[index] = data;
             const listToStorage = JSON.stringify(list);
             await AsyncStorage.setItem(COLLECTION_KEY, listToStorage);
-            return itemFounded;
+            return data;
         } else {
             return null;
         }
 
     }
+
+    async cleanAll() {
+        await AsyncStorage.setItem(COLLECTION_KEY, null);
+    };
 }
 
