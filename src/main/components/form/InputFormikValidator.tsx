@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     backgroundColor: 'white',
     height: 35,
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: 'lato-regular'
   },
   icon: {

@@ -22,14 +22,24 @@ const styles = StyleSheet.create({
   inputField: {
     borderColor: 'black',
     height: 35,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    fontSize: 20,
   },
   inputFieldError: {
     borderWidth: 1,
     borderColor: 'red'
   },
-  menu: {},
-  menuItem: {}
+  menu: {
+    display: 'flex',
+    flexGrow: 2
+  },
+  menuContainer: {
+    width: '100%'
+  },
+  menuItem: {
+    fontSize: 20,
+    flexGrow: 2,
+  }
 });
 
 interface Props {
@@ -92,7 +102,7 @@ const DropdownInputFormikValidator = ({
 
   return (
     <View style={styles.container}>
-      <View style={{}}>
+      <View style={styles.menuContainer}>
         <Menu
           visible={open}
           onDismiss={closeMenu}

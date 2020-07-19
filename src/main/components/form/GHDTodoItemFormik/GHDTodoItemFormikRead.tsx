@@ -1,19 +1,23 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {Checkbox, TextInput} from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {Checkbox, Text,  TextInput} from 'react-native-paper';
 import {useField} from 'formik';
 
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 5
+        marginVertical: 5,
+        display: 'flex',
+        flexDirection: 'row',
     },
     completed: {
         backgroundColor: 'red'
     },
     description: {
-
+        fontSize: 22,
+        paddingTop: 2,
+        paddingBottom: 2
     },
 });
 
@@ -24,10 +28,10 @@ interface Props {
 }
 
 const GHDTodoItemFormikRead = ({
-                         description,
-                         checked,
-                         onCheck
-                     }: Props) => {
+                                   description,
+                                   checked,
+                                   onCheck
+                               }: Props) => {
 
     const checkItem = () => {
         onCheck(!checked);

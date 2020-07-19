@@ -21,13 +21,24 @@ import {SHOP_LIST_ITEM_NAVIGATOR_KEY} from '../../config/constants';
 import {ShopListList} from './shopListList';
 import {getShopListItemsAction} from '../../actions/shop-list-item';
 import {IShopList} from '../../services/interfaces/interfaces';
+import GHDButton from '../../components/GHDButton';
 
 
 const styles = StyleSheet.create({
+    button: {
+        // height: 60
+    },
+    buttonContainer: {
+        // marginTop: 10,
+        // marginBottom: 10,
+    },
     container: {
         flex: 1,
         marginTop: Constants.statusBarHeight,
     },
+    listContainer: {
+        height: '90%'
+    }
 });
 
 type ProfileScreenRouteProp = NavigationRouteProp<RootStackParamList, 'Home'>;
@@ -66,13 +77,22 @@ export class HomeScreen extends Component<IHomeProps> {
         const {removeShopList} = this.props;
         return (
             <SafeAreaView style={styles.container}>
-                <ShopListList
-                    shopLists={shopLists}
-                    navigation={navigation}
-                    onDelete={removeShopList}
-                    onClone={cloneShopList}
-                />
-                <Button onPress={this.onPressAdd} title="New List"/>
+                <View style={styles.listContainer}>
+                    <ShopListList
+                        shopLists={shopLists}
+                        navigation={navigation}
+                        onDelete={removeShopList}
+                        onClone={cloneShopList}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <GHDButton
+                        style={[styles.button]}
+                        onPress={this.onPressAdd}
+                    >
+                        New List
+                    </GHDButton>
+                </View>
             </SafeAreaView>
         );
     }

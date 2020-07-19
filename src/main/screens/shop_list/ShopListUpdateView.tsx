@@ -5,12 +5,14 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import GHDShopListForm from '../../components/form/GHDShopListForm';
 import {IShopList} from '../../services/interfaces/interfaces';
 import {useEffect, useState} from 'react';
+import {COLOR_ONE} from '../../styles/colors';
 
 const styles = StyleSheet.create({
     container: {},
     h1: {
         textAlign: 'center',
-        fontSize: 18
+        fontSize: 24,
+        color: COLOR_ONE
     },
     header: {
         marginTop: 8,

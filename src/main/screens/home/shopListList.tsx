@@ -4,6 +4,7 @@ import {ShopListListRow} from './shopListListRow';
 import { DataTable, Text } from 'react-native-paper';
 import {useEffect, useState} from 'react';
 import {IShopList} from '../../services/ShopListService';
+import {SECONDARY} from '../../styles/colors';
 
 const styles = StyleSheet.create({
     columnBig: {
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     h1: {
-        fontSize: 14
+        fontSize: 22,
+        color: SECONDARY
     },
     header: {
         // fontFamily: 'lato-light'
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
     },
     odd: {},
     text: {
-        fontSize: 14,
+        fontSize: 20,
         // fontFamily: 'lato-bold'
     },
 });

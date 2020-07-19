@@ -6,27 +6,38 @@ import {useField} from 'formik';
 
 
 const styles = StyleSheet.create({
-    checkbox: {
-        margin: 5
+    checkbox: {},
+    checkboxContainer: {
+        // marginTop: 50,
+
+        paddingTop: 5,
+        paddingBottom: 5
     },
     container: {
         // marginVertical: 5,
         display: 'flex',
-        flexDirection: 'row'
     },
     completed: {
         backgroundColor: 'red'
     },
+    inputContainer: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
     inputField: {
+        flexGrow: 2,
         borderColor: 'black',
         paddingTop: 0.25,
         paddingBottom: 0.25,
         borderRadius: 0,
         backgroundColor: 'white',
         height: 35,
-        fontSize: 16,
+        fontSize: 20,
         fontFamily: 'lato-regular'
     },
+    error: {
+
+    }
 });
 
 interface Props {
@@ -67,30 +78,36 @@ const GHDTodoItemFormikEdit = ({
 
     return (
         <View style={styles.container}>
-            <Checkbox
-                style={styles.checkbox}
-                status={checked ? 'checked' : 'unchecked'}
-                onPress={() => {
-                    onCheckChange(!checked);
-                    onCheckBlur(true)
-                }}
-            />
-            <TextInput
-                keyboardType={keyboardType}
-                mode="outlined"
-                style={{
-                    ...styles.inputField,
-                }}
-                placeholder={'descripcion'}
-                value={description}
-                onChangeText={onDescriptionInput}
-                onBlur={onDescriptionBlur}
-                // error={hasError}
-                // disabled={disabled}
-            />
-            <Button onPress={onRemove}>Remove</Button>
+            <View style={styles.inputContainer}>
+                <View style={styles.checkboxContainer}>
+                    <Checkbox
+                        style={styles.checkbox}
+                        status={checked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            onCheckChange(!checked);
+                            onCheckBlur(true)
+                        }}
+                    />
+                </View>
+
+                <TextInput
+                    keyboardType={keyboardType}
+                    mode="outlined"
+                    style={{
+                        ...styles.inputField,
+                    }}
+                    placeholder={'descripcion'}
+                    value={description}
+                    onChangeText={onDescriptionInput}
+                    onBlur={onDescriptionBlur}
+                    // error={hasError}
+                    // disabled={disabled}
+                />
+                <Button onPress={onRemove}>Remove</Button>
+            </View>
+
             {hasError && (
-                <HelperText type="error">{errorMessage}</HelperText>
+                <HelperText style={styles.error} type="error">{errorMessage}</HelperText>
             )}
         </View>
 

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'
     },
     text: {
-        fontSize: 14,
+        fontSize: 20,
         // fontFamily: 'lato-bold'
     },
     title: {

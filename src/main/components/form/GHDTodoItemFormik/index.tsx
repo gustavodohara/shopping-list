@@ -97,7 +97,7 @@ const GHDTodoItemFormik = ({
                         onCheck={onCheckChange}
                     />
             }
-            <Text>id field {idField.value}</Text>
+            {/*<Text>id field {idField.value}</Text>*/}
         </View>
     );
 };

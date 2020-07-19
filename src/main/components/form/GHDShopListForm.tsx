@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
         borderColor: PRIMARY,
         borderWidth: 2
     },
+    buttonAddItem: {
+        marginTop: 20,
+    },
     buttons: {
         paddingTop: 10,
         paddingBottom: 5
@@ -223,7 +226,7 @@ const GHDShopListForm = ({
                                     }
                                     {
                                         createOrUpdate ? <GHDButton
-                                            style={[styles.button, styles.button]}
+                                            style={[styles.button, styles.buttonAddItem]}
                                             onPress={() => addNewItem(fieldArrayHelpers)}
                                         >
                                             Add Item
