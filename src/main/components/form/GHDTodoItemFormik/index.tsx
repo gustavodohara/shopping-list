@@ -70,8 +70,8 @@ const GHDTodoItemFormik = ({
     };
 
     // console.log("render descriptionField", descriptionField);
-    console.log("render descriptionMeta ", descriptionMeta);
-    console.log("render idField", idField);
+    // console.log("render descriptionMeta ", descriptionMeta);
+    // console.log("render idField", idField);
 
     return (
         <View>

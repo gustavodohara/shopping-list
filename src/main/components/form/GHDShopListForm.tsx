@@ -83,48 +83,29 @@ const GHDShopListForm = ({
     }, [stores]);
 
     const onSubmit = (values, actions) => {
-        console.log('onSubmit', values);
-        let obj = null;
+        // console.log('onSubmit', values);
+        // let obj = null;
         // const items = values.items.map(({is_new, id, description, is_completed}) => {
         const newItems = [...values.items];
-        const itemsMaped = newItems.map((el) => {
-            console.log('onSubmit variables items-el', el);
-            // console.log('onSubmit variables items-!!el.id', !!el.id);
-            // console.log('onSubmit variables items-!!el.id ? el.id : null', !!el.id ? el.id : null);
-            obj = {
+        const itemsMapped = newItems.map((el) => {
+            const obj = el.is_new ? {
+                description: el.description,
+                is_completed: el.is_completed,
+                id: -1 // I do now why, but if i do not set an id it is created a new one with a random number
+            } : {
+                id: el.id,
                 description: el.description,
                 is_completed: el.is_completed,
             };
-            if (!el.is_new) {
-                console.log('onSubmit variables el.is_new', el.id);
-                obj.id = el.id
-            } else {
-                delete obj.id;
-            }
-
             //
-            console.log('onSubmit variables items-obj', obj);
             return obj;
         });
-        // const itemsMaped = [];
-        // values.items.forEach(elem => {
-        //     const el = {...elem};
-        //     itemsMaped.push({
-        //         description: el.description,
-        //         is_completed: el.is_completed
-        //
-        //     });
-        // });
 
-
-        console.log('onSubmit variables items', itemsMaped);
         const variables = {
             name: values.name,
             storeId: +values.storeId,
-            items: itemsMaped
+            items: itemsMapped
         };
-
-        console.log('onSubmit variables', variables);
 
         action({variables});
         actions.setSubmitting(false);
@@ -173,14 +154,14 @@ const GHDShopListForm = ({
         return newInit;
     };
 
-    console.log('ghdshoplistform initialValues', getInitialValues());
-
     const createOrUpdate = !readOnly;
 
     return (
         <Formik
             initialValues={getInitialValues()}
-            onSubmit={onSubmit}
+            onSubmit={(data, actions) => {
+                onSubmit(data, actions);
+            }}
             enableReinitialize={true}
             validationSchema={validationSchema}
         >
@@ -205,6 +186,7 @@ const GHDShopListForm = ({
 
                     <FieldArray name="items">
                         {({form, ...fieldArrayHelpers}) => {
+                            // console.log("render FIELDArray form.values.items", form.values.items);
                             if (!form.values.items) {
                                 return null
                             }

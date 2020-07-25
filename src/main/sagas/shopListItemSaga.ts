@@ -70,7 +70,6 @@ const shopListItemSaga = {
             const {id} = data;
             response = yield call(updateShopListItemAPI, id, data);
 
-            console.log('shopListItemSaga updateShopListItems response', response);
             yield all([
                 put(upsertNormalizedAction(actionIds.SHOP_LIST_ITEMS_NORMALIZED, normalizeItem(response, shopListItemsSchema))),
                 put(updateShopListItemsSuccessAction(response)),

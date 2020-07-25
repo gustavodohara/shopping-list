@@ -1,4 +1,4 @@
-import {ShopListItemsStoreService} from './store/ShopListItemsStoreService';
+import {incrementSeqItems, ShopListItemsStoreService} from './store/ShopListItemsStoreService';
 import {IShopListItem} from './interfaces/interfaces';
 
 export class ShopListItemsApiService {
@@ -6,23 +6,34 @@ export class ShopListItemsApiService {
     private seq = 0;
 
     constructor() {
+        this.get.bind(this);
+        this.getByIds.bind(this);
+        this.getAll.bind(this);
+        this.add.bind(this);
+        this.addOrUpdate.bind(this);
+        this.addOrUpdateAll.bind(this);
+        this.remove.bind(this);
+        this.removeByIds.bind(this);
+        this.update.bind(this);
+        this.cleanAll.bind(this);
+
     }
 
-    static getInstance(): ShopListItemsApiService {
+    static getInstance = (): ShopListItemsApiService => {
         if (!ShopListItemsApiService.instance) {
             ShopListItemsApiService.instance = new ShopListItemsApiService();
             // await ShopListService.instance.init();
         }
 
         return ShopListItemsApiService.instance;
-    }
+    };
 
     // private async init() {
     //     this.seq = await this.getSeq();
     //
     // }
 
-    async get(id: number): Promise<IShopListItem | null> {
+    async get(id: number) {
         const shopListItem = await ShopListItemsStoreService.getInstance().get(id);
         return shopListItem;
     }
@@ -44,12 +55,27 @@ export class ShopListItemsApiService {
 
     async addOrUpdate(item: IShopListItem) {
         let newItem = null;
-        if (item && item.id) {
+        // NOTE: DO NOT WHY, BUT I HAVE TO SET THE ID TO -1 to mark it as a new item
+        // if is greater than 0 then is an existing item
+        if (item && item.id && item.id > 0) {
             newItem = await this.update(item.id, item);
         } else {
             newItem = await this.add(item);
         }
         return newItem;
+    };
+
+    async addOrUpdateAll(items: IShopListItem[]): Promise<(IShopListItem | null)[]> {
+        // i am going to try execute all promises one by one
+        // to avoid screw up the sequence
+        const newItems = [];
+
+        for (const item of items) {
+            const newItem = await this.addOrUpdate(item);
+            newItems.push(newItem);
+        };
+
+        return newItems
     };
 
     async remove(id: number) {
@@ -66,7 +92,7 @@ export class ShopListItemsApiService {
         return await ShopListItemsStoreService.getInstance().update(id, data);
     }
 
-    async cleanAll () {
+    async cleanAll() {
         return await ShopListItemsStoreService.getInstance().cleanAll();
     }
 }

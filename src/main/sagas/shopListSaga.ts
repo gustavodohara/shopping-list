@@ -97,9 +97,7 @@ const shopListSaga = {
         let response;
         try {
             const data = action.payload;
-            console.log("createShopList data", data);
             response = yield call(createShopListAPI, data);
-            console.log("createShopList response", response);
             const {shopList, shopListItems} = response;
             yield all([
                 put(upsertNormalizedAction(actionIds.GET_SHOP_LISTS_NORMALIZED, normalizeItem(shopList, shopListSchema))),
@@ -167,7 +165,6 @@ const shopListSaga = {
             const data = action.payload;
             const {id} = data;
             response = yield call(editShopListAPI, id, data);
-            console.log("shoplistSaga updateShopList", response);
             const {
                 shopList,
                 shopListItems,
@@ -202,7 +199,6 @@ const shopListSaga = {
         let success = false;
         let response;
         try {
-            console.log("cleanAllShopList");
             response = yield call(cleanAllShopListAPI);
 
             const updatedShopList = response;
@@ -233,7 +229,6 @@ const shopListSaga = {
         try {
             const data = action.payload;
             response = yield call(cloneShopListAPI, data);
-            console.log("shopListSaga response", response);
             const {shopList, shopListItems} = response;
             yield all([
                 put(upsertNormalizedAction(actionIds.GET_SHOP_LISTS_NORMALIZED, normalizeItem(shopList, shopListSchema))),

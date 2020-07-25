@@ -25,7 +25,6 @@ const initState = {
 const ShopListCreateView = ({ navigation, createShopList, stores }) => {
 
   const onSubmit = (action, data) => {
-    console.log('data', data);
     const values = data.variables;
     const variables = {
       date: new Date(),
@@ -33,7 +32,6 @@ const ShopListCreateView = ({ navigation, createShopList, stores }) => {
       storeId: +values.storeId,
       items: values.items,
     };
-    console.log('variables', variables);
 
     action( variables );
   };

@@ -7,10 +7,9 @@ import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/ty
 
 import {IRootState} from '../../reducers';
 import {
-    cleanAllShopListsAction, cloneShopListsAction,
+    cloneShopListsAction,
     getShopListsAction,
     removeShopListsAction,
-    updateShopListsAction
 } from '../../actions/shop-list';
 import {convertObjectIntoArray} from '../../services/utils';
 import {

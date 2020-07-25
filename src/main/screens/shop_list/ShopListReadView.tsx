@@ -51,7 +51,6 @@ const ShopListReadView = ({navigation, shopList, updateItem, stores}) => {
     }, [shopList]);
 
     const onSubmit = (action, data) => {
-        console.log('actualizando item chequeado', data, initState);
         action(data)
         // const values = data.variables;
         // const variables = {

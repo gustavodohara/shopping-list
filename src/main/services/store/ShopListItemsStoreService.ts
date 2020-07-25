@@ -4,11 +4,36 @@ import {IShopListItem} from '../interfaces/interfaces';
 const COLLECTION_KEY = '@LIST_ITEMS';
 const COLLECTION_SEQ_KEY = '@LIST_ITEMS/SEQ';
 
+
+export const incrementSeqItems = async (): Promise<number> => {
+    let seq = await getSeq();
+    seq = seq + 1;
+    await AsyncStorage.setItem(COLLECTION_SEQ_KEY, seq + '');
+    return seq;
+};
+
+export const getSeq = async (): Promise<number> => {
+    const value = await AsyncStorage.getItem(COLLECTION_SEQ_KEY);
+    if (value) {
+        return Number(value);
+    } else {
+        return 1;
+    }
+};
+
 export class ShopListItemsStoreService {
     private static instance: ShopListItemsStoreService;
     private seq = 0;
 
     constructor() {
+        this.get.bind(this);
+        this.getByIds.bind(this);
+        this.getAll.bind(this);
+        this.add.bind(this);
+        this.remove.bind(this);
+        this.removeByIds.bind(this);
+        this.update.bind(this);
+        this.cleanAll.bind(this);
     }
 
     static getInstance(): ShopListItemsStoreService {
@@ -24,22 +49,6 @@ export class ShopListItemsStoreService {
     //     this.seq = await this.getSeq();
     //
     // }
-
-    private async incrementSeq(): Promise<number> {
-        let seq = await this.getSeq();
-        seq++;
-        await AsyncStorage.setItem(COLLECTION_SEQ_KEY, seq + '');
-        return seq;
-    }
-
-    private async getSeq(): Promise<number> {
-        const value = await AsyncStorage.getItem(COLLECTION_SEQ_KEY);
-        if (value) {
-            return +value;
-        } else {
-            return 0;
-        }
-    }
 
     async get(id: number): Promise<IShopListItem | null> {
         try {
@@ -87,7 +96,7 @@ export class ShopListItemsStoreService {
     async add(item: IShopListItem) {
         let list = await this.getAll();
 
-        const newSeg = await this.incrementSeq();
+        const newSeg = await incrementSeqItems();
         item.id = newSeg;
         list.push(item);
 

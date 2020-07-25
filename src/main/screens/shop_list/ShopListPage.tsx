@@ -71,7 +71,6 @@ class ShopListScreen extends Component<IShopListProps, IShopListState> {
 
     private handleUpdateItem = (data) => {
         const {updateShopListItem} = this.props;
-        console.log("update item checked :)!!!", data);
         updateShopListItem(data);
     };
 
@@ -165,7 +164,6 @@ class ShopListScreen extends Component<IShopListProps, IShopListState> {
 
 const mapStateToProps = ({main}: IRootState) => {
 
-    console.log("shoplistpage mapStateToPrpos ", main);
     const stores = convertObjectIntoArray(main.stores);
     const shopLists = main.shopLists;
     const shopListItems = main.shopListItems;

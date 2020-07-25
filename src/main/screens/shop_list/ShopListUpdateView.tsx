@@ -44,7 +44,6 @@ const ShopListUpdateView = ({shopList, updateShopList, stores}) => {
     }, [shopList]);
 
     const onSubmit = (action: Function, data: any) => {
-        console.log('data', data);
         const values = data.variables;
         const variables = {
             id: initialValues.id,
@@ -53,7 +52,6 @@ const ShopListUpdateView = ({shopList, updateShopList, stores}) => {
             storeId: +values.storeId,
             items: values.items,
         };
-        console.log('variables', variables);
 
         action(variables);
     };

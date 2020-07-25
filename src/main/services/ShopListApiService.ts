@@ -33,29 +33,45 @@ export class ShopListApiService {
     }
 
     async add(item: IShopList): Promise<any> {
-        const itemsCreated = await Promise.all(item.items.map(item => {
-            return ShopListItemsApiService.getInstance().addOrUpdate(item);
-        }));
-        const items = itemsCreated ? itemsCreated : [];
-        console.log("ShopListApiService", items);
-        const itemToCreate = this.buildShopList(item, items);
+        // we execute promises in sequenceq to not break the sequence
+        const itemsCreated: IShopListItem[] = [];
+        for (const element of item.items) {
+            const newItem = await ShopListItemsApiService.getInstance().addOrUpdate(element);
+            itemsCreated.push(newItem);
+        }
+
+        const itemToCreate = this.buildShopList(item, itemsCreated);
         const newItem = await ShopListStoreService.getInstance().add(itemToCreate);
         return {
             shopList: newItem,
-            shopListItems: items,
+            shopListItems: itemsCreated,
         };
     };
 
     async clone(item: IShopList): Promise<any> {
-        const itemsCreated = await Promise.all(item.items.map(item => {
-            return ShopListItemsApiService.getInstance().add({...item, is_completed: false});
-        }));
-        const items = itemsCreated ? itemsCreated : [];
-        const itemToCreate = this.buildShopList(item, items);
-        const newItem = await ShopListStoreService.getInstance().add(itemToCreate);
+        const itemsCloned = [];
+
+        for (const id of item.items) {
+            const findedElement = await ShopListItemsApiService.getInstance().get(id);
+            if (findedElement) {
+                const newElement = await ShopListItemsApiService.getInstance().add({
+                    ...findedElement,
+                    is_completed: false
+                });
+                itemsCloned.push(newElement);
+            }
+        }
+        ;
+
+        const itemToCreate = this.buildShopList(item, itemsCloned);
+        const cloneShoppingList = await ShopListStoreService.getInstance().add(itemToCreate);
+        console.log("ShopListApiService itemCloned", itemsCloned);
+        console.log("ShopListApiService itemToCreate", itemToCreate);
+        console.log("ShopListApiService itemCloned", cloneShoppingList);
+
         return {
-            shopList: newItem,
-            shopListItems: items,
+            shopList: cloneShoppingList,
+            shopListItems: itemsCloned,
         };
     };
 
@@ -108,7 +124,6 @@ export class ShopListApiService {
         let shopList = {};
         let shopListItems: IShopListItem[] = [];
         let shopListItemIdsToRemove: number[] = [];
-        console.log("shoplistApiService id data", id, data);
         try {
             // remove items
             // shopListItemIdsToRemove = await this.getItemsIdToRemove(id, data.items || []);
@@ -116,18 +131,16 @@ export class ShopListApiService {
             // await ShopListItemsStoreService.getInstance().removeByIds(shopListItemIdsToRemove);
 
             // add new items
-            shopListItems = await Promise.all(data.items.map(async item => {
-                return await ShopListItemsApiService.getInstance().addOrUpdate(item);
-            }));
-            console.log("shoplistApiService shopListItems", shopListItems);
+            shopListItems = await ShopListItemsApiService.getInstance().addOrUpdateAll([...data.items]);
+
+            const shopListItemFiltered = shopListItems.filter(item => !!item);
 
             const itemIds = data.items.map(item => item.id);
             const shopListToUpdate = {...data, items: itemIds};
-            console.log("shoplistApiService shopListToUpdate", shopListToUpdate);
             shopList = await ShopListStoreService.getInstance().update(id, shopListToUpdate);
             return {
                 shopList,
-                shopListItems,
+                shopListItems: shopListItemFiltered,
                 shopListItemIdsToRemove,
             }
         } catch (e) {
