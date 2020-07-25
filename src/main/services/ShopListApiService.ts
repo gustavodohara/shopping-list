@@ -65,9 +65,6 @@ export class ShopListApiService {
 
         const itemToCreate = this.buildShopList(item, itemsCloned);
         const cloneShoppingList = await ShopListStoreService.getInstance().add(itemToCreate);
-        console.log("ShopListApiService itemCloned", itemsCloned);
-        console.log("ShopListApiService itemToCreate", itemToCreate);
-        console.log("ShopListApiService itemCloned", cloneShoppingList);
 
         return {
             shopList: cloneShoppingList,
