@@ -1,35 +1,23 @@
 import AsyncStorage from '@react-native-community/async-storage';
-
-export interface IShopList {
-    /* id in collections */
-    id?: number;
-    /* name of list */
-    name: string;
-    /* date */
-    date: string;
-    /* id in store collection */
-    store: number;
-    /* array of items in items collection */
-    items: number[]
-}
+import {IShopListNormalized} from '../interfaces/interfaces';
 
 const COLLECTION_KEY = '@LIST';
 const COLLECTION_SEQ_KEY = '@LIST/SEQ';
 
-export class ListService {
-    private static instance: ListService;
+export class ShopListStoreService {
+    private static instance: ShopListStoreService;
     private seq = 0;
 
     constructor() {
     }
 
-    static getInstance(): ListService {
-        if (!ListService.instance) {
-            ListService.instance = new ListService();
-            // await ListService.instance.init();
+    static getInstance(): ShopListStoreService {
+        if (!ShopListStoreService.instance) {
+            ShopListStoreService.instance = new ShopListStoreService();
+            // await ShopListService.instance.init();
         }
 
-        return ListService.instance;
+        return ShopListStoreService.instance;
     }
 
     // private async init() {
@@ -53,7 +41,7 @@ export class ListService {
         }
     }
 
-    async get(): Promise<IShopList[]> {
+    async get(): Promise<IShopListNormalized[]> {
         const data = await AsyncStorage.getItem(COLLECTION_KEY);
         let list = [];
         if (data) {
@@ -62,7 +50,22 @@ export class ListService {
         return list;
     }
 
-    async add(item: IShopList) {
+    async getById(id: number): Promise<IShopListNormalized | null> {
+        try {
+            const data = await AsyncStorage.getItem(COLLECTION_KEY);
+            let itemFind = null;
+            let list = [];
+            if (data) {
+                list = JSON.parse(data);
+            }
+            itemFind = list.find((item: IShopListNormalized) =>  item.id && item.id === id);
+            return itemFind
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async add(item: IShopListNormalized):  Promise<IShopListNormalized> {
         let list = await this.get();
 
         const newSeg = await this.incrementSeq();
@@ -71,25 +74,39 @@ export class ListService {
 
         const listToStorage = JSON.stringify(list);
         await AsyncStorage.setItem(COLLECTION_KEY, listToStorage);
+        return item;
     };
 
-    async remove(id: number) {
+
+
+    async remove(id: number): Promise<number> {
         let list = await this.get();
-        list = list.filter( (l: IShopList) => l.id !== id);
+
+        /* remove items */
+
+        /* remove shopList */
+        list = list.filter( (l: IShopListNormalized) => l.id !== id);
         const listToStorage = JSON.stringify(list);
         await AsyncStorage.setItem(COLLECTION_KEY, listToStorage);
+        return id;
     };
 
-    async update(id: number, data: IShopList) {
+    async update(id: number, data: IShopListNormalized) {
         let list = await this.get();
-        const itemFounded = list.find( (l: IShopList) => l.id === id);
+        const itemFounded = list.find( (l: IShopListNormalized) => l.id === id);
         if (itemFounded) {
             let index = list.indexOf(itemFounded);
             list[index] = data;
             const listToStorage = JSON.stringify(list);
             await AsyncStorage.setItem(COLLECTION_KEY, listToStorage);
+            return data;
         }
+        return {};
 
+    }
+
+    async cleanAll() {
+        await AsyncStorage.clear();
     }
 }
 
